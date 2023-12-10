@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Envio para WhatsApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Estilo adicional para melhorar a aparência do formulário */
+        body {
+            padding: 20px;
+        }
+        .colunas {
+            margin-bottom: 20px;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Formulario Analise de agua (Turno B2)</h1>
+    <form id="meuFormulario">
+        <div class="row">
+            <!-- Coluna 1 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>DESMI:</h3>
+                <textarea name="coluna1[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna1[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna1[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+            <!-- Coluna 2 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>DESAIRADOR:</h3>
+                <textarea name="coluna2[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna2[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna2[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+            <!-- Coluna 3 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>CALDEIRA 1:</h3>
+                <textarea name="coluna3[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna3[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna3[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Coluna 4 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>CALDEIRA 2:</h3>
+                <textarea name="coluna4[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna4[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna4[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+            <!-- Coluna 5 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>VAPOR:</h3>
+                <textarea name="coluna5[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna5[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna5[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+            <!-- Coluna 6 -->
+            <div class="col-md-4 col-sm-6 colunas">
+                <h3>TORRE:</h3>
+                <textarea name="coluna6[]" class="form-control" rows="2" inputmode="numeric">PH:</textarea>
+                <textarea name="coluna6[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">COND:</textarea>
+                <textarea name="coluna6[]" class="form-control" rows="2" style="margin-top: 10px;" inputmode="numeric">DUREZA:</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label for="selecionarPessoa">Selecione a pessoa:</label>
+                <select id="selecionarPessoa" class="form-control" onchange="selecionarNumero()">
+                    <option value="+5514997794598">ALDAIR</option>
+                    <option value="+5514991512054">BEBEZAO</option>
+                    <option value="+5514991484468">BALSANTE</option>
+                    <option value="+5514991446281">PEDRO</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-primary btn-block" id="linkWhatsApp" onclick="enviarParaWhatsApp()">Enviar para WhatsApp</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function enviarParaWhatsApp() {
+        var colunas = document.getElementsByClassName("colunas");
+        var mensagem = "";
+
+        for (var i = 0; i < colunas.length; i++) {
+            var coluna = colunas[i];
+            var titulo = coluna.getElementsByTagName("h3")[0].textContent;
+            mensagem += "*" + titulo + "*%0A";
+
+            var campos = coluna.getElementsByTagName("textarea");
+            for (var j = 0; j < campos.length; j++) {
+                mensagem += campos[j].value + "%0A";
+            }
+
+            mensagem += "%0A"; // Adicionando espaço entre os títulos
+        }
+
+        var selecionado = document.getElementById("selecionarPessoa");
+        var numero = selecionado.value;
+
+        window.open("https://api.whatsapp.com/send?phone=" + numero + "&text=" + mensagem);
+    }
+
+    function selecionarNumero() {
+        var selecionado = document.getElementById("selecionarPessoa");
+        var numero = selecionado.value;
+
+        var linkWhatsApp = document.getElementById("linkWhatsApp");
+        linkWhatsApp.setAttribute("data-numero", numero);
+    }
+</script>
+
+</body>
